@@ -1,7 +1,3 @@
-from datetime import datetime
-
-import pytz
-from flask import Flask, Response, request
 from waitress import serve
 
 from ggsheet_parser import (FORMULA_COLUMNS, MAP_COLUMN_TO_GGSHEET_COLUMN,
@@ -17,6 +13,10 @@ MAP_DAY_JOUR = {
     "Sunday": "Dimanche",
 }
 
+
+app = Flask(__name__)
+
+
 def get_jour_heure():
 
     tz = pytz.timezone('Europe/Paris')
@@ -26,9 +26,6 @@ def get_jour_heure():
     heure = time.split(":")[0]
 
     return jour, heure
-
-
-app = Flask(__name__)
 
 
 @app.route("/is_alive", methods=["GET"])
@@ -53,23 +50,18 @@ def add_transaction_row():
 
     sheet, sheet_columns, formulas, new_row_i = get_ggsheet_as_df()
 
-
     sheet = connect_to_worksheet()
     for column in FORMULA_COLUMNS:
         column = MAP_COLUMN_TO_GGSHEET_COLUMN[column]
         cell = column + str(new_row_i)
-        print(cell)
 
         formula = formulas[column]
-        print(formula)
 
         sheet.update_acell(cell, formula)
 
     for column, value in qrcode_input.items():
         column = MAP_COLUMN_TO_GGSHEET_COLUMN[column]
         cell = column + str(new_row_i)
-        print(cell)
-        print(value)
 
         sheet.update_acell(cell, value)
 

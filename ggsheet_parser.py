@@ -3,7 +3,7 @@ import pandas as pd
 
 FORMULA_COLUMNS = ["Type", "Laverie", "Réduction Type 1", "Réduction Type 2",
                    "Type de Réduction", "Prix à payer", "Prix Payé",
-                   "Avoir",	"Code cb"]
+                   "Avoir",     "Code cb"]
 MAP_COLUMN_TO_GGSHEET_COLUMN = {
     "Type": "B",
     "Laverie": "C",
