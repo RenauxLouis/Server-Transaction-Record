@@ -28,7 +28,7 @@ def get_time():
     jour = MAP_DAY_JOUR[now.strftime("%A")]
     time = now.strftime("%X")
     heure = time.split(":")[0]
-    time_clean = time.strftime("%h:%m:%s")
+    time_clean = time.split(".")[0])
 
     return now, time_clean, jour, heure
 
