@@ -1,29 +1,27 @@
-import json
-import os
-import pandas as pd
+from datetime import datetime
+
+import pytz
 from flask import Flask, Response, request
 from waitress import serve
 
-from datetime import datetime
-from ggsheet_parser import (get_ggsheet_as_df, FORMULA_COLUMNS,
-                            MAP_COLUMN_TO_GGSHEET_COLUMN,
-                            connect_to_worksheet)
+from ggsheet_parser import (FORMULA_COLUMNS, MAP_COLUMN_TO_GGSHEET_COLUMN,
+                            connect_to_worksheet, get_ggsheet_as_df)
 
-from datetime import datetime
-import locale
-import pytz
-import sys
-
-def set_locale(locale_):
-    locale.setlocale(category=locale.LC_ALL, locale=locale_)
-
+MAP_DAY_JOUR = {
+    "Monday": "Lundi",
+    "Tuesday": "Mardi",
+    "Wednesday": "Mercredi",
+    "Thursday": "Jeudi",
+    "Friday": "Vendredi",
+    "Saturday": "Samedi",
+    "Sunday": "Dimanche",
+}
 
 def get_jour_heure():
 
     tz = pytz.timezone('Europe/Paris')
     now = datetime.now(tz)
-    set_locale('fr_FR.UTF-8')
-    jour = now.strftime("%A")
+    jour = MAP_DAY_JOUR[now.strftime("%A")]
     time = now.strftime("%X")
     heure = time.split(":")[0]
 
