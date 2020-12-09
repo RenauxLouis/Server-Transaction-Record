@@ -7,19 +7,20 @@ FORMULA_COLUMNS = ["Type", "Laverie", "Réduction Type 1", "Réduction Type 2",
 MAP_COLUMN_TO_GGSHEET_COLUMN = {
     "Type": "B",
     "Laverie": "C",
-    "Réduction Type 1": "G",
-    "Réduction Type 2": "H",
-    "Type de Réduction": "I",
-    "Prix à payer": "J",
-    "Prix Payé": "K",
-    "Avoir": "L",
-    "Code cb": "M",
+    "Réduction Type 1": "I",
+    "Réduction Type 2": "J",
+    "Type de Réduction": "K",
+    "Prix à payer": "L",
+    "Prix Payé": "M",
+    "Avoir": "N",
+    "Code cb": "O",
     "Code": "A",
     "Machine": "D",
     "Jour": "E",
-    "Heure": "F"
+    "Heure": "F",
+    "Date": "G",
+    "Time": "H"
 }
-
 
 def connect_to_worksheet():
     gc = gspread.service_account()

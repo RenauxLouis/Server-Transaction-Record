@@ -28,8 +28,9 @@ def get_time():
     jour = MAP_DAY_JOUR[now.strftime("%A")]
     time = now.strftime("%X")
     heure = time.split(":")[0]
+    time_clean = time.strftime("%h:%m:%s")
 
-    return now, time, jour, heure
+    return now, time_clean, jour, heure
 
 
 @app.route("/is_alive", methods=["GET"])
@@ -43,7 +44,7 @@ def add_transaction_row():
     code = request.args.get("code")
     machine = request.args.get("machine")
 
-    now, time, jour, heure = get_time()
+    date, time, jour, heure = get_time()
     print(now, time, jour, heure)
 
     qrcode_input = {
