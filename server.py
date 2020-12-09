@@ -29,7 +29,7 @@ def get_time():
     time = now.strftime("%X")
     heure = time.split(":")[0]
     time_clean = time.split(".")[0]
-    date = str(now)
+    date = str(now.strftime("%d-%m-%Y"))
 
     return date, time_clean, jour, heure
 
