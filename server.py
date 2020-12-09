@@ -29,8 +29,9 @@ def get_time():
     time = now.strftime("%X")
     heure = time.split(":")[0]
     time_clean = time.split(".")[0]
+    date = str(now)
 
-    return now, time_clean, jour, heure
+    return date, time_clean, jour, heure
 
 
 @app.route("/is_alive", methods=["GET"])
