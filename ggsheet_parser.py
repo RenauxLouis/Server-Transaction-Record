@@ -37,11 +37,9 @@ def get_ggsheet_as_df():
     sheet = connect_to_worksheet()
     df = pd.DataFrame(sheet.get_all_records())
     sheet_columns = df.columns
-    print(df)
 
     new_row_i = next_available_row(sheet)
     formulas = get_formulas_empty_cells(sheet, new_row_i)
-    print(formulas)
 
     return sheet, sheet_columns, formulas, new_row_i
 
