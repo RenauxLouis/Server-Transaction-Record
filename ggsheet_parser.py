@@ -1,14 +1,5 @@
-from __future__ import print_function
-
-import os
-from datetime import date
-from decimal import Decimal
-from re import sub
-
 import gspread
-import numpy as np
 import pandas as pd
-import sys
 
 FORMULA_COLUMNS = ["Type", "Laverie", "Réduction Type 1", "Réduction Type 2",
                    "Type de Réduction", "Prix à payer", "Prix Payé",
