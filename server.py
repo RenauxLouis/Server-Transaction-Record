@@ -17,7 +17,7 @@ MAP_DAY_JOUR = {
 app = Flask(__name__)
 
 
-def get_jour_heure():
+def get_time():
 
     tz = pytz.timezone('Europe/Paris')
     now = datetime.now(tz)
@@ -25,7 +25,7 @@ def get_jour_heure():
     time = now.strftime("%X")
     heure = time.split(":")[0]
 
-    return jour, heure
+    return now, time, jour, heure
 
 
 @app.route("/is_alive", methods=["GET"])
@@ -39,13 +39,16 @@ def add_transaction_row():
     code = request.args.get("code")
     machine = request.args.get("machine")
 
-    jour, heure = get_jour_heure()
+    now, time, jour, heure = get_time()
+    print(now, time, jour, heure)
 
     qrcode_input = {
         "Code": code,
         "Machine": machine,
         "Jour": jour,
-        "Heure": heure
+        "Heure": heure,
+        "Date": date,
+        "Time": time
     }
 
     sheet, sheet_columns, formulas, new_row_i = get_ggsheet_as_df()
