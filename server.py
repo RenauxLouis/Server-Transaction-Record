@@ -45,7 +45,6 @@ def add_transaction_row():
     machine = request.args.get("machine")
 
     date, time, jour, heure = get_time()
-    print(now, time, jour, heure)
 
     qrcode_input = {
         "Code": code,
