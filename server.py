@@ -1,5 +1,6 @@
 from datetime import datetime
 import os
+from string import Template
 
 import pytz
 from flask import Flask, Response, request, render_template
@@ -42,7 +43,9 @@ def write_html(code, machine):
     with open(html_fpath) as fi:
         html = fi.read()
 
-    formatted_html = html.format(code=code, machine=machine)
+    # formatted_html = html.format(code=code, machine=machine)
+    formatted_html = Template(html).safe_substitute(
+        code=code, machine=machine)
     with open(html_fpath) as fo:
         fo.write(formatted_html)
 
