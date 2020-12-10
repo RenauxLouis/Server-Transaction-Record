@@ -73,7 +73,7 @@ def add_transaction_row():
 
         sheet.update_acell(cell, value)
 
-    return render_template('success.html', error=error)
+    return render_template("success.html")
 
 if __name__ == "__main__":
     serve(app, port=8080)
