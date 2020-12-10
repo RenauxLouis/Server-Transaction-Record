@@ -8,7 +8,7 @@ from waitress import serve
 from ggsheet_parser import (FORMULA_COLUMNS, MAP_COLUMN_TO_GGSHEET_COLUMN,
                             connect_to_worksheet, get_ggsheet_as_df)
 
-HTML_FNAME = "success.html"
+HTML_FNAME = "success_2.html"
 MAP_DAY_JOUR = {
     "Monday": "Lundi",
     "Tuesday": "Mardi",
