@@ -1,7 +1,7 @@
 from datetime import datetime
 
 import pytz
-from flask import Flask, Response, request
+from flask import Flask, Response, request, render_template
 from waitress import serve
 
 from ggsheet_parser import (FORMULA_COLUMNS, MAP_COLUMN_TO_GGSHEET_COLUMN,
@@ -73,7 +73,7 @@ def add_transaction_row():
 
         sheet.update_acell(cell, value)
 
-    return Response("", status=200, mimetype="application/json")
+    return render_template('success.html', error=error)
 
 if __name__ == "__main__":
     serve(app, port=8080)
