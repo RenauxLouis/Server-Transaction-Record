@@ -46,7 +46,7 @@ def write_html(code, machine):
     # formatted_html = html.format(code=code, machine=machine)
     formatted_html = Template(html).safe_substitute(
         code=code, machine=machine)
-    with open(html_fpath) as fo:
+    with open(html_fpath, "w") as fo:
         fo.write(formatted_html)
 
 
