@@ -7,6 +7,7 @@ from waitress import serve
 from ggsheet_parser import (FORMULA_COLUMNS, MAP_COLUMN_TO_GGSHEET_COLUMN,
                             connect_to_worksheet, get_ggsheet_as_df)
 
+HTML_FNAME = "success.html"
 MAP_DAY_JOUR = {
     "Monday": "Lundi",
     "Tuesday": "Mardi",
@@ -32,6 +33,17 @@ def get_time():
     date = str(now.strftime("%d-%m-%Y"))
 
     return date, time_clean, jour, heure
+
+
+def write_html(code, machine):
+
+    html_fpath = os.path.join("templates", HTML_FNAME)
+    with open(html_fpath) as fi:
+        html = fi.read()
+
+    formatted_html = html.format(code=code, machine=machine)
+    with open(html_fpath) as fo:
+        fo.write(formatted_html)
 
 
 @app.route("/is_alive", methods=["GET"])
@@ -73,7 +85,9 @@ def add_transaction_row():
 
         sheet.update_acell(cell, value)
 
-    return render_template("success.html")
+    write_html(code, machine)
+
+    return render_template(HTML_FNAME)
 
 if __name__ == "__main__":
     serve(app, port=8080)
