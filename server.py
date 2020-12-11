@@ -80,7 +80,7 @@ def add_transaction_row():
     html_fpath_formatted = write_html(code, machine)
     html_fname_formatted = os.path.basename(html_fpath_formatted)
 
-    return render_template(html_fpath_formatted)
+    return render_template(html_fname_formatted)
 
 
 if __name__ == "__main__":
