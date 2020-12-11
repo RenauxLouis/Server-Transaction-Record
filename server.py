@@ -6,8 +6,7 @@ import pytz
 from flask import Flask, Response, request
 from waitress import serve
 
-from ggsheet_parser import (FORMULA_COLUMNS, get_ggsheet_as_df,
-                            append_row_ggsheet)
+from ggsheet_parser import append_row_ggsheet
 
 HTML_FNAME = "success.html"
 MAP_DAY_JOUR = {
@@ -70,8 +69,7 @@ def add_transaction_row():
         "Time": time
     }
 
-    formulas, new_row_i = get_ggsheet_as_df()
-    append_row_ggsheet(formulas, new_row_i, qrcode_input)
+    append_row_ggsheet(qrcode_input)
 
     formatted_html = write_html(code, machine)
 
