@@ -43,7 +43,6 @@ def write_html(code, machine):
     with open(html_fpath) as fi:
         html = fi.read()
 
-    # formatted_html = html.format(code=code, machine=machine)
     formatted_html = Template(html).safe_substitute(
         code=code, machine=machine)
     with open(html_fpath, "w") as fo:
@@ -72,22 +71,15 @@ def add_transaction_row():
         "Time": time
     }
 
-    sheet, sheet_columns, formulas, new_row_i = get_ggsheet_as_df()
+    formulas, new_row_i = get_ggsheet_as_df()
+
+    new_row = {**qrcode_input, **formulas}
+    columns = sort(MAP_COLUMN_TO_GGSHEET_COLUMN.values)
+    new_row_ordered = [new_row[MAP_COLUMN_TO_GGSHEET_COLUMN[column]]
+                       for column in columns]
 
     sheet = connect_to_worksheet()
-    for column in FORMULA_COLUMNS:
-        column = MAP_COLUMN_TO_GGSHEET_COLUMN[column]
-        cell = column + str(new_row_i)
-
-        formula = formulas[column]
-
-        sheet.update_acell(cell, formula)
-
-    for column, value in qrcode_input.items():
-        column = MAP_COLUMN_TO_GGSHEET_COLUMN[column]
-        cell = column + str(new_row_i)
-
-        sheet.update_acell(cell, value)
+    sheet.update(f"A{new_row_i}: B{new_row_i}", new_row_ordered)
 
     write_html(code, machine)
 

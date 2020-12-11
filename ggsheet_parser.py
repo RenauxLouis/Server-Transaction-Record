@@ -5,8 +5,14 @@ FORMULA_COLUMNS = ["Type", "Laverie", "Réduction Type 1", "Réduction Type 2",
                    "Type de Réduction", "Prix à payer", "Prix Payé",
                    "Avoir",     "Code cb"]
 MAP_COLUMN_TO_GGSHEET_COLUMN = {
+    "Code": "A",
     "Type": "B",
     "Laverie": "C",
+    "Machine": "D",
+    "Jour": "E",
+    "Heure": "F",
+    "Date": "G",
+    "Time": "H"
     "Réduction Type 1": "I",
     "Réduction Type 2": "J",
     "Type de Réduction": "K",
@@ -14,12 +20,6 @@ MAP_COLUMN_TO_GGSHEET_COLUMN = {
     "Prix Payé": "M",
     "Avoir": "N",
     "Code cb": "O",
-    "Code": "A",
-    "Machine": "D",
-    "Jour": "E",
-    "Heure": "F",
-    "Date": "G",
-    "Time": "H"
 }
 
 def connect_to_worksheet():
@@ -37,12 +37,11 @@ def get_ggsheet_as_df():
 
     sheet = connect_to_worksheet()
     df = pd.DataFrame(sheet.get_all_records())
-    sheet_columns = df.columns
 
     new_row_i = next_available_row(sheet)
     formulas = get_formulas_empty_cells(sheet, new_row_i)
 
-    return sheet, sheet_columns, formulas, new_row_i
+    return formulas, new_row_i
 
 def get_formulas_empty_cells(sheet, new_row_i):
 
