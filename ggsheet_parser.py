@@ -75,7 +75,9 @@ def get_formulas_empty_cells(sheet, new_row_i):
 def append_row_ggsheet(formulas, new_row_i, qrcode_input):
 
     new_row = {**qrcode_input, **formulas}
-    columns = sorted(list(MAP_COLUMN_TO_GGSHEET_COLUMN.values()))
+    print(new_row)
+    columns = sorted(list(INVERSE_MAP_COLUMN_TO_GGSHEET_COLUMN.keys()))
+    print(columns)
     new_row_ordered = [new_row[INVERSE_MAP_COLUMN_TO_GGSHEET_COLUMN[column]]
                        for column in columns]
 
