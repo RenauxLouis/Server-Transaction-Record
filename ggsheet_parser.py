@@ -5,6 +5,23 @@ FORMULA_COLUMNS = ["Type", "Laverie", "Réduction Type 1", "Réduction Type 2",
                    "Type de Réduction", "Prix à payer", "Prix Payé",
                    "Avoir",     "Code cb"]
 MAP_COLUMN_TO_GGSHEET_COLUMN = {
+    "Code": "A",
+    "Type": "B",
+    "Laverie": "C",
+    "Machine": "D",
+    "Jour": "E",
+    "Heure": "F",
+    "Date": "G",
+    "Time": "H",
+    "Réduction Type 1": "I",
+    "Réduction Type 2": "J",
+    "Type de Réduction": "K",
+    "Prix à payer": "L",
+    "Prix Payé": "M",
+    "Avoir": "N",
+    "Code cb": "O"
+}
+INVERSE_MAP_COLUMN_TO_GGSHEET_COLUMN = {
     "A": "Code",
     "B": "Type",
     "C": "Laverie",
@@ -47,7 +64,7 @@ def get_formulas_empty_cells(sheet, new_row_i):
 
     formulas = {}
     for formula_column in FORMULA_COLUMNS:
-        column = formula_column
+        column = MAP_COLUMN_TO_GGSHEET_COLUMN[formula_column]
         cell = column + str(new_row_i)
         formula = sheet.acell(cell, value_render_option="FORMULA").value
         formulas[column] = formula
@@ -57,12 +74,13 @@ def get_formulas_empty_cells(sheet, new_row_i):
 
 def append_row_ggsheet(formulas, new_row_i, qrcode_input):
 
+    qrcode_input = {
+        MAP_COLUMN_TO_GGSHEET_COLUMN[k]: v for k, v in qrcode_input.items()}
     new_row = {**qrcode_input, **formulas}
     print(new_row)
-    columns = sorted(list(MAP_COLUMN_TO_GGSHEET_COLUMN.keys()))
+    columns = sorted(list(MAP_COLUMN_TO_GGSHEET_COLUMN.values()))
     print(columns)
-    new_row_ordered = [new_row[MAP_COLUMN_TO_GGSHEET_COLUMN[column]]
-                       for column in columns]
+    new_row_ordered = [new_row[column] for column in columns]
 
     sheet = connect_to_worksheet()
     sheet.update(f"A{new_row_i}: B{new_row_i}", new_row_ordered)
