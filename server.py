@@ -6,7 +6,8 @@ import pytz
 from flask import Flask, Response, request, render_template
 from waitress import serve
 
-from ggsheet_parser import (FORMULA_COLUMNS, get_ggsheet_as_df)
+from ggsheet_parser import (FORMULA_COLUMNS, get_ggsheet_as_df,
+                            append_row_ggsheet)
 
 HTML_FNAME = "success_2.html"
 MAP_DAY_JOUR = {
