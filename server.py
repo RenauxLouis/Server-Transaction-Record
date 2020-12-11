@@ -6,8 +6,7 @@ import pytz
 from flask import Flask, Response, request, render_template
 from waitress import serve
 
-from ggsheet_parser import (FORMULA_COLUMNS, MAP_COLUMN_TO_GGSHEET_COLUMN,
-                            connect_to_worksheet, get_ggsheet_as_df)
+from ggsheet_parser import (FORMULA_COLUMNS, get_ggsheet_as_df)
 
 HTML_FNAME = "success_2.html"
 MAP_DAY_JOUR = {
@@ -72,14 +71,7 @@ def add_transaction_row():
     }
 
     formulas, new_row_i = get_ggsheet_as_df()
-
-    new_row = {**qrcode_input, **formulas}
-    columns = sort(MAP_COLUMN_TO_GGSHEET_COLUMN.values)
-    new_row_ordered = [new_row[MAP_COLUMN_TO_GGSHEET_COLUMN[column]]
-                       for column in columns]
-
-    sheet = connect_to_worksheet()
-    sheet.update(f"A{new_row_i}: B{new_row_i}", new_row_ordered)
+    append_row_ggsheet(formulas, new_row_i, qrcode_input)
 
     write_html(code, machine)
 

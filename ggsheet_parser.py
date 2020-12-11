@@ -55,5 +55,16 @@ def get_formulas_empty_cells(sheet, new_row_i):
     return formulas
 
 
+def append_row_ggsheet(formulas, new_row_i, qrcode_input):
+
+    new_row = {**qrcode_input, **formulas}
+    columns = sorted(list(MAP_COLUMN_TO_GGSHEET_COLUMN.values))
+    new_row_ordered = [new_row[MAP_COLUMN_TO_GGSHEET_COLUMN[column]]
+                       for column in columns]
+
+    sheet = connect_to_worksheet()
+    sheet.update(f"A{new_row_i}: B{new_row_i}", new_row_ordered)
+
+
 if __name__ == "__main__":
     get_ggsheet_as_df()
