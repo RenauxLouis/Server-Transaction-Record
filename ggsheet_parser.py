@@ -85,7 +85,8 @@ def append_row_ggsheet(formulas, new_row_i, qrcode_input):
     sheet = connect_to_worksheet()
     # sheet.update(f"A{new_row_i}: B{new_row_i}", new_row_ordered,
     #              value_input_option="USER_ENTERED")
-    sheet.insert_row(new_row_ordered, index=new_row_i)
+    sheet.insert_row(new_row_ordered, index=new_row_i,
+                     value_input_option="USER_ENTERED")
 
 
 if __name__ == "__main__":
