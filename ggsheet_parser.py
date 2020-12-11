@@ -1,5 +1,4 @@
 import gspread
-import pandas as pd
 
 FORMULA_COLUMNS = ["Type", "Laverie", "Réduction Type 1", "Réduction Type 2",
                    "Type de Réduction", "Prix à payer", "Prix Payé",

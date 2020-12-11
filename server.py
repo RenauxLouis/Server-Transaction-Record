@@ -3,13 +3,13 @@ import os
 from string import Template
 
 import pytz
-from flask import Flask, Response, request, render_template
+from flask import Flask, Response, request
 from waitress import serve
 
 from ggsheet_parser import (FORMULA_COLUMNS, get_ggsheet_as_df,
                             append_row_ggsheet)
 
-HTML_FNAME = "success_2.html"
+HTML_FNAME = "success.html"
 MAP_DAY_JOUR = {
     "Monday": "Lundi",
     "Tuesday": "Mardi",
@@ -40,16 +40,12 @@ def get_time():
 def write_html(code, machine):
 
     html_fpath = os.path.join("templates", HTML_FNAME)
-    html_fpath_formatted = os.path.join("templates", "f_" + HTML_FNAME)
     with open(html_fpath) as fi:
         html = fi.read()
 
-    formatted_html = Template(html).safe_substitute(
-        code=code, machine=machine)
-    with open(html_fpath_formatted, "w") as fo:
-        fo.write(formatted_html)
+    formatted_html = Template(html).safe_substitute(code=code, machine=machine)
 
-    return html_fpath_formatted
+    return formatted_html
 
 
 @app.route("/is_alive", methods=["GET"])
@@ -77,10 +73,9 @@ def add_transaction_row():
     formulas, new_row_i = get_ggsheet_as_df()
     append_row_ggsheet(formulas, new_row_i, qrcode_input)
 
-    html_fpath_formatted = write_html(code, machine)
-    html_fname_formatted = os.path.basename(html_fpath_formatted)
+    formatted_html = write_html(code, machine)
 
-    return render_template(html_fname_formatted)
+    return formatted_html
 
 
 if __name__ == "__main__":
