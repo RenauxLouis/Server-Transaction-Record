@@ -12,14 +12,14 @@ MAP_COLUMN_TO_GGSHEET_COLUMN = {
     "Jour": "E",
     "Heure": "F",
     "Date": "G",
-    "Time": "H"
+    "Time": "H",
     "Réduction Type 1": "I",
     "Réduction Type 2": "J",
     "Type de Réduction": "K",
     "Prix à payer": "L",
     "Prix Payé": "M",
     "Avoir": "N",
-    "Code cb": "O",
+    "Code cb": "O"
 }
 
 def connect_to_worksheet():
