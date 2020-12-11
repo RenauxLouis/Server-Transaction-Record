@@ -78,5 +78,6 @@ def add_transaction_row():
 
     return render_template(HTML_FNAME)
 
+
 if __name__ == "__main__":
     serve(app, port=8080)

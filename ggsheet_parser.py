@@ -21,23 +21,7 @@ MAP_COLUMN_TO_GGSHEET_COLUMN = {
     "Avoir": "N",
     "Code cb": "O"
 }
-INVERSE_MAP_COLUMN_TO_GGSHEET_COLUMN = {
-    "A": "Code",
-    "B": "Type",
-    "C": "Laverie",
-    "D": "Machine",
-    "E": "Jour",
-    "F": "Heure",
-    "G": "Date",
-    "H": "Time",
-    "I": "Réduction Type 1",
-    "J": "Réduction Type 2",
-    "K": "Type de Réduction",
-    "L": "Prix à payer",
-    "M": "Prix Payé",
-    "N": "Avoir",
-    "O": "Code cb"
-}
+
 
 def connect_to_worksheet():
     gc = gspread.service_account()
@@ -53,7 +37,6 @@ def next_available_row(worksheet):
 def get_ggsheet_as_df():
 
     sheet = connect_to_worksheet()
-    df = pd.DataFrame(sheet.get_all_records())
 
     new_row_i = next_available_row(sheet)
     formulas = get_formulas_empty_cells(sheet, new_row_i)
@@ -77,14 +60,10 @@ def append_row_ggsheet(formulas, new_row_i, qrcode_input):
     qrcode_input = {
         MAP_COLUMN_TO_GGSHEET_COLUMN[k]: v for k, v in qrcode_input.items()}
     new_row = {**qrcode_input, **formulas}
-    print(new_row)
     columns = sorted(list(MAP_COLUMN_TO_GGSHEET_COLUMN.values()))
-    print(columns)
     new_row_ordered = [new_row[column] for column in columns]
 
     sheet = connect_to_worksheet()
-    # sheet.update(f"A{new_row_i}: B{new_row_i}", new_row_ordered,
-    #              value_input_option="USER_ENTERED")
     sheet.insert_row(new_row_ordered, index=new_row_i,
                      value_input_option="USER_ENTERED")
 
