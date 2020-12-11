@@ -21,6 +21,23 @@ MAP_COLUMN_TO_GGSHEET_COLUMN = {
     "Avoir": "N",
     "Code cb": "O"
 }
+INVERSE_MAP_COLUMN_TO_GGSHEET_COLUMN = {
+    "A": "Code",
+    "B": "Type",
+    "C": "Laverie",
+    "D": "Machine",
+    "E": "Jour",
+    "F": "Heure",
+    "G": "Date",
+    "H": "Time",
+    "I": "Réduction Type 1",
+    "J": "Réduction Type 2",
+    "K": "Type de Réduction",
+    "L": "Prix à payer",
+    "M": "Prix Payé",
+    "N": "Avoir",
+    "O": "Code cb"
+}
 
 def connect_to_worksheet():
     gc = gspread.service_account()
@@ -59,7 +76,7 @@ def append_row_ggsheet(formulas, new_row_i, qrcode_input):
 
     new_row = {**qrcode_input, **formulas}
     columns = sorted(list(MAP_COLUMN_TO_GGSHEET_COLUMN.values()))
-    new_row_ordered = [new_row[MAP_COLUMN_TO_GGSHEET_COLUMN[column]]
+    new_row_ordered = [new_row[INVERSE_MAP_COLUMN_TO_GGSHEET_COLUMN[column]]
                        for column in columns]
 
     sheet = connect_to_worksheet()
