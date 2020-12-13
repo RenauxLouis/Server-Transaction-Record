@@ -77,4 +77,4 @@ def add_transaction_row():
 
 
 if __name__ == "__main__":
-    serve(app, port=8080)
+    serve(app, port=8080, threads=1)
