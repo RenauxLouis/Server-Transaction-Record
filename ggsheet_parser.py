@@ -1,5 +1,6 @@
 import gspread
 
+GG_SHEET_NAME = "SBS Laverie Privée"
 MAP_COLUMN_TO_GGSHEET_COLUMN = {
     "Code": "A",
     "Machine": "B",
@@ -12,7 +13,7 @@ MAP_COLUMN_TO_GGSHEET_COLUMN = {
 
 def connect_to_sheet():
     gc = gspread.service_account()
-    sheet = gc.open("LaveyLivrey").sheet1
+    sheet = gc.open(GG_SHEET_NAME).sheet1
     return sheet
 
 
