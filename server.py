@@ -76,9 +76,9 @@ def add_transaction_row():
     with open(html_fpath) as fi:
         html = fi.read()
 
-    login_page = Template(html)
+    # login_page = Template(html)
 
-    return login_page
+    return html
 
     formatted_html = write_html(code, machine)
 
