@@ -9,6 +9,7 @@ from waitress import serve
 from ggsheet_parser import append_row_ggsheet
 
 HTML_FNAME = "success.html"
+LOGIN_FNAME = "login.html"
 MAP_DAY_JOUR = {
     "Monday": "Lundi",
     "Tuesday": "Mardi",
@@ -70,6 +71,14 @@ def add_transaction_row():
     }
 
     append_row_ggsheet(qrcode_input)
+
+    html_fpath = os.path.join("templates", LOGIN_FNAME)
+    with open(html_fpath) as fi:
+        html = fi.read()
+
+    login_page = Template(html)
+
+    return login_page
 
     formatted_html = write_html(code, machine)
 
