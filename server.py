@@ -3,7 +3,7 @@ import os
 from string import Template
 
 import pytz
-from flask import Flask, Response, request
+from flask import Flask, Response, request, session, redirect, url_for
 from waitress import serve
 
 from ggsheet_parser import append_row_ggsheet
@@ -20,9 +20,25 @@ MAP_DAY_JOUR = {
     "Sunday": "Dimanche",
 }
 
+CODE = None
+MACHINE = None
 
 app = Flask(__name__)
 
+
+class User:
+    def __init__(self, id, username, password):
+        self.id = id
+        self.username = username
+        self.password = password
+
+    def __repr__(self):
+        return f"<User: {self.username}>"
+
+
+VALID_USERS = [
+    User(id=1, username="samuel", password="jadorelescarottes")
+]
 
 def get_time():
 
@@ -46,6 +62,24 @@ def write_html(code, machine):
     formatted_html = Template(html).safe_substitute(code=code, machine=machine)
 
     return formatted_html
+
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        session.pop("user_id", None)
+        username = request.form["username"]
+        password = request.form["password"]
+
+        matching_user = [x for x in users if x.username == username][0]
+        if matching_user and user.password == password:
+            session["user_id"] = user.id
+            formatted_html = write_html(code, machine)
+            return formatted_html
+        else:
+            return redirect(url_for("login"))
+
+    return "Server is running"
 
 
 @app.route("/is_alive", methods=["GET"])
@@ -76,13 +110,10 @@ def add_transaction_row():
     with open(html_fpath) as fi:
         html = fi.read()
 
-    # login_page = Template(html)
+    CODE = code
+    MACHINE = machine
 
     return html
-
-    formatted_html = write_html(code, machine)
-
-    return formatted_html
 
 
 if __name__ == "__main__":
