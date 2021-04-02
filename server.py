@@ -85,7 +85,7 @@ def login():
             if matching_user.password == password:
                 session["user_id"] = matching_user.id
 
-                resp = make_response("Setting cookie!")
+                resp = make_response(f"Saved user: {matching_user.username}")
                 resp.set_cookie("user", matching_user.username)
                 return resp
 
@@ -103,7 +103,7 @@ def add_transaction_row():
     user = request.cookies.get("user")
     print(user)
     if not user in VALID_USERNAMES:
-        return redirect(url_for("login"))
+        return redirect("https://qrcodelaveylivrey/login")
 
     code = request.args.get("code")
     machine = request.args.get("machine")
