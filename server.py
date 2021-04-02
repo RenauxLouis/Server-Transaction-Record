@@ -3,7 +3,8 @@ import os
 from string import Template
 
 import pytz
-from flask import Flask, Response, request, session, redirect, url_for
+from flask import (Flask, Response, request, session, make_response,
+                   redirect, url_for, g, render_template)
 from waitress import serve
 
 from ggsheet_parser import append_row_ggsheet
@@ -20,10 +21,12 @@ MAP_DAY_JOUR = {
     "Sunday": "Dimanche",
 }
 
-CODE = None
-MACHINE = None
-
 app = Flask(__name__)
+app.secret_key = "dsfghytresdfgtr"
+
+login_html_fpath = os.path.join("templates", LOGIN_FNAME)
+with open(login_html_fpath) as fi:
+    LOGIN_HTML = fi.read()
 
 
 class User:
@@ -37,8 +40,10 @@ class User:
 
 
 VALID_USERS = [
-    User(id=1, username="samuel", password="jadorelescarottes")
+    User(id=1, username="samuel", password="jadorelesframboises")
 ]
+VALID_USERNAMES = [user.username for user in VALID_USERS]
+
 
 def get_time():
 
@@ -66,20 +71,25 @@ def write_html(code, machine):
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+
     if request.method == "POST":
         session.pop("user_id", None)
         username = request.form["username"]
         password = request.form["password"]
 
-        matching_user = [x for x in users if x.username == username][0]
-        if matching_user and user.password == password:
-            session["user_id"] = user.id
-            formatted_html = write_html(code, machine)
-            return formatted_html
+        matching_users = [x for x in VALID_USERS if x.username == username]
+        if not matching_users:
+            return LOGIN_HTML
         else:
-            return redirect(url_for("login"))
+            matching_user = matching_users[0]
+            if matching_user.password == password:
+                session["user_id"] = matching_user.id
 
-    return "Server is running"
+                resp = make_response("Setting cookie!")
+                resp.set_cookie("user", matching_user.username)
+                return resp
+
+    return LOGIN_HTML
 
 
 @app.route("/is_alive", methods=["GET"])
@@ -89,6 +99,11 @@ def is_alive():
 
 @app.route("/add_transaction_row", methods=["GET"])
 def add_transaction_row():
+
+    user = request.cookies.get("user")
+    print(user)
+    if not user in VALID_USERNAMES:
+        return redirect(url_for("login"))
 
     code = request.args.get("code")
     machine = request.args.get("machine")
@@ -106,14 +121,25 @@ def add_transaction_row():
 
     append_row_ggsheet(qrcode_input)
 
-    html_fpath = os.path.join("templates", LOGIN_FNAME)
-    with open(html_fpath) as fi:
-        html = fi.read()
+    formatted_html = write_html(code, machine)
 
-    CODE = code
-    MACHINE = machine
+    return formatted_html
 
-    return html
+@app.before_request
+def before_request():
+    g.user = None
+
+    if "user_id" in session:
+        user = [x for x in VALID_USERS if x.id == session["user_id"]][0]
+        g.user = user
+
+
+@app.route("/profile")
+def profile():
+    if not g.user:
+        return redirect(url_for("login"))
+
+    return render_template("profile.html")
 
 
 if __name__ == "__main__":
