@@ -103,7 +103,7 @@ def add_transaction_row():
     user = request.cookies.get("user")
     print(user)
     if not user in VALID_USERNAMES:
-        return redirect("https://qrcodelaveylivrey/login")
+        return redirect("https://qrcodelaveylivrey.com/login")
 
     code = request.args.get("code")
     machine = request.args.get("machine")
