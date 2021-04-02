@@ -85,7 +85,10 @@ def login():
             if matching_user.password == password:
                 session["user_id"] = matching_user.id
 
-                resp = make_response(f"Saved user: {matching_user.username}")
+                resp = make_response(
+                    f"Compte connecté: {matching_user.username}."
+                    " Veuillez scanner le QR Code une nouvelle fois"
+                    " pour valider la transaction")
                 resp.set_cookie("user", matching_user.username)
                 return resp
 
