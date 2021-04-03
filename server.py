@@ -110,7 +110,7 @@ def login():
                 resp.set_cookie("user", matching_user.username)
                 return resp
 
-    return write_html_login()
+    return render_template(write_html_login())
 
 
 @app.route("/is_alive", methods=["GET"])
