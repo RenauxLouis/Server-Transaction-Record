@@ -11,7 +11,7 @@ from waitress import serve
 from ggsheet_parser import append_row_ggsheet
 
 HTML_FNAME = "success.html"
-LOGIN_FNAME = "login.html"
+LOGIN_FNAME = "new_login.html"
 MAP_DAY_JOUR = {
     "Monday": "Lundi",
     "Tuesday": "Mardi",
