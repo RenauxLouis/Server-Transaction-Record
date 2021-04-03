@@ -29,7 +29,6 @@ app.secret_key = "dsfghytresdfgtr"
 login_html_fpath = os.path.join("templates", LOGIN_PAGE_FNAME)
 with open(login_html_fpath) as fi:
     LOGIN_HTML = fi.read()
-    LOGIN_HTML = Template(LOGIN_HTML).safe_substitute(error_message="")
 login_html_fpath = os.path.join("templates", CONNECTED_PAGE_FNAME)
 with open(login_html_fpath) as fi:
     CONNECTED_HTML = fi.read()
@@ -79,10 +78,9 @@ def write_html(code, machine):
 
     return formatted_html
 
-def write_html_error_login():
 
-    error_message = "Identifiant ou Mot de Passe incorrect.\nVeuillez "\
-                    "confirmer avec Samuel Gérard pour confirmation"
+def write_html_error_login(error_message=""):
+
     formatted_html = Template(LOGIN_PAGE_FNAME).safe_substitute(
         error_message=error_message)
 
@@ -99,7 +97,10 @@ def login():
 
         matching_users = [x for x in VALID_USERS if x.username == username]
         if not matching_users:
-            return render_template(write_html_error_login())
+
+            error_message = "Identifiant ou Mot de Passe incorrect.\nVeuillez"\
+                            "confirmer avec Samuel Gérard pour confirmation"
+            return render_template(write_html_error_login(error_message))
         else:
             matching_user = matching_users[0]
             if matching_user.password == password:
