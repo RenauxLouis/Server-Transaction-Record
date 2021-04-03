@@ -29,6 +29,7 @@ app.secret_key = "dsfghytresdfgtr"
 login_html_fpath = os.path.join("templates", LOGIN_PAGE_FNAME)
 with open(login_html_fpath) as fi:
     LOGIN_HTML = fi.read()
+    LOGIN_HTML = Template(LOGIN_HTML).safe_substitute(error_message="")
 login_html_fpath = os.path.join("templates", CONNECTED_PAGE_FNAME)
 with open(login_html_fpath) as fi:
     CONNECTED_HTML = fi.read()
