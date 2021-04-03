@@ -99,7 +99,7 @@ def login():
 
         matching_users = [x for x in VALID_USERS if x.username == username]
         if not matching_users:
-            return write_html_error_login()
+            return make_response(write_html_error_login())
         else:
             matching_user = matching_users[0]
             if matching_user.password == password:
