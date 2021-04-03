@@ -98,8 +98,9 @@ def login():
         matching_users = [x for x in VALID_USERS if x.username == username]
         if not matching_users:
 
-            error_message = "Identifiant ou Mot de Passe incorrect.\nVeuillez"\
-                            "confirmer avec Samuel Gérard pour confirmation"
+            error_message = "Identifiant ou Mot de Passe incorrect. Veuillez"\
+                            " confirmer avec Samuel Gérard si les "\
+                            " identifiants semblent erronés"
             return write_html_login(error_message)
         else:
             matching_user = matching_users[0]
