@@ -79,7 +79,7 @@ def write_html(code, machine):
     return formatted_html
 
 
-def write_html_error_login(error_message=""):
+def write_html_login(error_message=""):
 
     formatted_html = Template(LOGIN_PAGE_FNAME).safe_substitute(
         error_message=error_message)
@@ -100,7 +100,7 @@ def login():
 
             error_message = "Identifiant ou Mot de Passe incorrect.\nVeuillez"\
                             "confirmer avec Samuel Gérard pour confirmation"
-            return render_template(write_html_error_login(error_message))
+            return render_template(write_html_login(error_message))
         else:
             matching_user = matching_users[0]
             if matching_user.password == password:
@@ -110,7 +110,7 @@ def login():
                 resp.set_cookie("user", matching_user.username)
                 return resp
 
-    return LOGIN_HTML
+    return write_html_login()
 
 
 @app.route("/is_alive", methods=["GET"])
