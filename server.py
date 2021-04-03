@@ -78,6 +78,15 @@ def write_html(code, machine):
 
     return formatted_html
 
+def write_html_error_login():
+
+    error_message = "Identifiant ou Mot de Passe incorrect.\nVeuillez "\
+                    "confirmer avec Samuel Gérard pour confirmation"
+    formatted_html = Template(LOGIN_PAGE_FNAME).safe_substitute(
+        error_message=error_message)
+
+    return formatted_html
+
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -89,7 +98,7 @@ def login():
 
         matching_users = [x for x in VALID_USERS if x.username == username]
         if not matching_users:
-            return LOGIN_HTML
+            return write_html_error_login()
         else:
             matching_user = matching_users[0]
             if matching_user.password == password:
