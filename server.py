@@ -81,7 +81,7 @@ def write_html(code, machine):
 
 def write_html_login(error_message=""):
 
-    formatted_html = Template(LOGIN_PAGE_FNAME).safe_substitute(
+    formatted_html = Template(LOGIN_HTML).safe_substitute(
         error_message=error_message)
 
     return formatted_html
