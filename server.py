@@ -10,8 +10,9 @@ from waitress import serve
 
 from ggsheet_parser import append_row_ggsheet
 
-HTML_FNAME = "success.html"
-LOGIN_FNAME = "new_login.html"
+SUCCESS_PAGE_FNAME = "success.html"
+LOGIN_PAGE_FNAME = "new_login.html"
+CONNECTED_PAGE_FNAME = "connected.html"
 MAP_DAY_JOUR = {
     "Monday": "Lundi",
     "Tuesday": "Mardi",
@@ -25,9 +26,15 @@ MAP_DAY_JOUR = {
 app = Flask(__name__)
 app.secret_key = "dsfghytresdfgtr"
 
-login_html_fpath = os.path.join("templates", LOGIN_FNAME)
+login_html_fpath = os.path.join("templates", LOGIN_PAGE_FNAME)
 with open(login_html_fpath) as fi:
     LOGIN_HTML = fi.read()
+login_html_fpath = os.path.join("templates", CONNECTED_PAGE_FNAME)
+with open(login_html_fpath) as fi:
+    CONNECTED_HTML = fi.read()
+html_fpath = os.path.join("templates", SUCCESS_PAGE_FNAME)
+with open(html_fpath) as fi:
+    SUCCESS_HTML = fi.read()
 
 
 class User:
@@ -66,11 +73,8 @@ def get_time():
 
 def write_html(code, machine):
 
-    html_fpath = os.path.join("templates", HTML_FNAME)
-    with open(html_fpath) as fi:
-        html = fi.read()
-
-    formatted_html = Template(html).safe_substitute(code=code, machine=machine)
+    formatted_html = Template(SUCCESS_HTML).safe_substitute(
+        code=code, machine=machine)
 
     return formatted_html
 
@@ -91,10 +95,7 @@ def login():
             if matching_user.password == password:
                 session["user_id"] = matching_user.id
 
-                resp = make_response(
-                    f"Compte connecté: {matching_user.username}."
-                    " Veuillez scanner le QR Code une nouvelle fois"
-                    " pour valider la transaction")
+                resp = make_response(SUCCESS_HTML)
                 resp.set_cookie("user", matching_user.username)
                 return resp
 
