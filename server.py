@@ -10,7 +10,7 @@ from waitress import serve
 
 from ggsheet_parser import append_row_ggsheet
 
-SUCCESS_PAGE_FNAME = "success.html"
+SUCCESS_PAGE_FNAME = "new_success.html"
 LOGIN_PAGE_FNAME = "new_login.html"
 CONNECTED_PAGE_FNAME = "connected.html"
 MAP_DAY_JOUR = {
