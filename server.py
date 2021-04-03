@@ -1,6 +1,7 @@
 from datetime import datetime
 import os
 from string import Template
+from argparse import ArgumentParser
 
 import pytz
 from flask import (Flask, Response, request, session, make_response,
@@ -39,8 +40,13 @@ class User:
         return f"<User: {self.username}>"
 
 
+parser = ArgumentParser()
+parser.add_argument("--username", type=str)
+parser.add_argument("--password", type=str)
+args = parser.parse_args()
+
 VALID_USERS = [
-    User(id=1, username="samuel", password="jadorelesframboises")
+    User(id=1, username=args.username, password=args.password)
 ]
 VALID_USERNAMES = [user.username for user in VALID_USERS]
 
