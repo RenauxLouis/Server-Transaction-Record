@@ -107,7 +107,7 @@ def login():
             if matching_user.password == password:
                 session["user_id"] = matching_user.id
 
-                resp = make_response(SUCCESS_HTML)
+                resp = make_response(CONNECTED_HTML)
                 resp.set_cookie("user", matching_user.username)
                 return resp
 
