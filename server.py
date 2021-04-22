@@ -137,8 +137,7 @@ def select_number_loads():
     user = request.cookies.get("user")
     print(user)
     if user not in VALID_USERNAMES:
-        # return redirect("https://qrcodelaveylivrey.com/login")
-        return redirect("/login")
+        return redirect("https://qrcodelaveylivrey.com/login")
 
     code = request.args.get("code")
     machine = request.args.get("machine")
@@ -159,8 +158,7 @@ def add_transaction_row():
     user = request.cookies.get("user")
     print(user)
     if user not in VALID_USERNAMES:
-        # return redirect("https://qrcodelaveylivrey.com/login")
-        return redirect("/login")
+        return redirect("https://qrcodelaveylivrey.com/login")
 
     code = request.cookies.get("code")
     machine = request.cookies.get("machine")
