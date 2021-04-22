@@ -75,7 +75,7 @@ def get_time():
     return date, time_clean, jour, heure
 
 
-def write_html(code, machine):
+def write_html(code, machine, loads):
 
     formatted_html = Template(SUCCESS_HTML).safe_substitute(
         code=code, machine=machine, loads=loads)
