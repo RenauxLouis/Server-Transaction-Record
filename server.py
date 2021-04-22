@@ -78,7 +78,7 @@ def get_time():
 def write_html(code, machine):
 
     formatted_html = Template(SUCCESS_HTML).safe_substitute(
-        code=code, machine=machine)
+        code=code, machine=machine, loads=loads)
 
     return formatted_html
 
@@ -177,7 +177,7 @@ def add_transaction_row():
 
     append_row_ggsheet(qrcode_input, loads)
 
-    formatted_html = write_html(code, machine)
+    formatted_html = write_html(code, machine, loads)
 
     return formatted_html
 
