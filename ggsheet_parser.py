@@ -22,7 +22,7 @@ def next_available_row(sheet):
     return len(str_list) + 1
 
 
-def append_row_ggsheet(qrcode_input):
+def append_row_ggsheet(qrcode_input, loads):
 
     sheet = connect_to_sheet()
     new_row_i = next_available_row(sheet)
@@ -33,8 +33,12 @@ def append_row_ggsheet(qrcode_input):
         mapped_qrcode_input.items(), key=lambda item: item[0])
     cell_values = [pair[1] for pair in mapped_qrcode_input_sort]
 
-    cell_list = sheet.range(f"A{new_row_i}:F{new_row_i}")
-    for i, cell_value in enumerate(cell_values):
-        cell_list[i].value = cell_value
+    cells_to_update = []
+    for load in range(loads):
+        new_row_with_load = str(new_row_i + load)
+        cell_list = sheet.range(f"A{new_row_with_load}:F{new_row_with_load}")
+        for i, cell_value in enumerate(cell_values):
+            cell_list[i].value = cell_value
+        cells_to_update.extend(list(cell_list))
 
-    sheet.update_cells(cell_list, value_input_option="USER_ENTERED")
+    sheet.update_cells(cells_to_update, value_input_option="USER_ENTERED")

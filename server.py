@@ -13,6 +13,7 @@ from ggsheet_parser import append_row_ggsheet
 SUCCESS_PAGE_FNAME = "new_success.html"
 LOGIN_PAGE_FNAME = "new_login.html"
 CONNECTED_PAGE_FNAME = "connected.html"
+NUMBER_LOAD_FNAME = "load.html"
 MAP_DAY_JOUR = {
     "Monday": "Lundi",
     "Tuesday": "Mardi",
@@ -35,6 +36,9 @@ with open(login_html_fpath) as fi:
 html_fpath = os.path.join("templates", SUCCESS_PAGE_FNAME)
 with open(html_fpath) as fi:
     SUCCESS_HTML = fi.read()
+html_fpath = os.path.join("templates", NUMBER_LOAD_FNAME)
+with open(html_fpath) as fi:
+    NUMBER_LOAD_HTML = fi.read()
 
 
 class User:
@@ -74,6 +78,14 @@ def get_time():
 def write_html(code, machine):
 
     formatted_html = Template(SUCCESS_HTML).safe_substitute(
+        code=code, machine=machine)
+
+    return formatted_html
+
+
+def write_html_get_load(code, machine):
+
+    formatted_html = Template(NUMBER_LOAD_HTML).safe_substitute(
         code=code, machine=machine)
 
     return formatted_html
@@ -120,15 +132,39 @@ def is_alive():
 
 
 @app.route("/add_transaction_row", methods=["GET"])
+def select_number_loads():
+
+    user = request.cookies.get("user")
+    print(user)
+    if user not in VALID_USERNAMES:
+        # return redirect("https://qrcodelaveylivrey.com/login")
+        return redirect("/login")
+
+    code = request.args.get("code")
+    machine = request.args.get("machine")
+
+    formatted_html = write_html_get_load(code, machine)
+
+    resp = make_response(formatted_html)
+
+    resp.set_cookie("code", code)
+    resp.set_cookie("machine", machine)
+
+    return resp
+
+
+@app.route("/add_transaction_row_with_load", methods=["GET"])
 def add_transaction_row():
 
     user = request.cookies.get("user")
     print(user)
-    if not user in VALID_USERNAMES:
-        return redirect("https://qrcodelaveylivrey.com/login")
+    if user not in VALID_USERNAMES:
+        # return redirect("https://qrcodelaveylivrey.com/login")
+        return redirect("/login")
 
-    code = request.args.get("code")
-    machine = request.args.get("machine")
+    code = request.cookies.get("code")
+    machine = request.cookies.get("machine")
+    loads = int(request.args.get("loads"))
 
     date, time, jour, heure = get_time()
 
@@ -141,11 +177,12 @@ def add_transaction_row():
         "Time": time
     }
 
-    append_row_ggsheet(qrcode_input)
+    append_row_ggsheet(qrcode_input, loads)
 
     formatted_html = write_html(code, machine)
 
     return formatted_html
+
 
 @app.before_request
 def before_request():
