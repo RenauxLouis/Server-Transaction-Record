@@ -66,6 +66,7 @@ def get_time():
 
     tz = pytz.timezone('Europe/Paris')
     now = datetime.now(tz)
+    print(now)
     jour = MAP_DAY_JOUR[now.strftime("%A")]
     time = now.strftime("%X")
     heure = time.split(":")[0]
@@ -179,9 +180,21 @@ def add_transaction_row():
 
     append_row_ggsheet(qrcode_input, loads)
 
+    resp = make_response(redirect("https://qrcodelaveylivrey.com/success"))
+    resp.set_cookie("code", code)
+    return resp
+
+
+@app.route("/success")
+def success():
+
+    code = request.cookies.get("code")
+    machine = request.cookies.get("machine")
+    loads = request.cookies.get("loads")
+
     formatted_html = write_html(code, machine, loads)
 
-    return make_response(formatted_html)
+    return formatted_html
 
 
 if __name__ == "__main__":
