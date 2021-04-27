@@ -181,7 +181,7 @@ def add_transaction_row():
     append_row_ggsheet(qrcode_input, loads)
 
     resp = make_response(redirect("https://qrcodelaveylivrey.com/success"))
-    resp.set_cookie("loads", loads)
+    resp.set_cookie("loads", str(loads))
     return resp
 
 
