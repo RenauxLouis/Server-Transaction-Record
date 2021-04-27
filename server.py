@@ -2,6 +2,7 @@ from datetime import datetime
 import os
 from string import Template
 from argparse import ArgumentParser
+import logging
 
 import pytz
 from flask import (Flask, Response, request, session, make_response,
@@ -26,6 +27,10 @@ MAP_DAY_JOUR = {
 
 app = Flask(__name__)
 app.secret_key = "dsfghytresdfgtr"
+
+logger = logging.getLogger("werkzeug")
+handler = logging.FileHandler("test.log")
+logger.addHandler(handler)
 
 login_html_fpath = os.path.join("templates", LOGIN_PAGE_FNAME)
 with open(login_html_fpath) as fi:
@@ -66,7 +71,7 @@ def get_time():
 
     tz = pytz.timezone('Europe/Paris')
     now = datetime.now(tz)
-    print(now)
+    logger.info(now)
     jour = MAP_DAY_JOUR[now.strftime("%A")]
     time = now.strftime("%X")
     heure = time.split(":")[0]
@@ -136,7 +141,7 @@ def is_alive():
 def select_number_loads():
 
     user = request.cookies.get("user")
-    print(user)
+    logger.info(user)
     if user not in VALID_USERNAMES:
         return redirect("https://qrcodelaveylivrey.com/login")
 
@@ -157,7 +162,7 @@ def select_number_loads():
 def add_transaction_row():
 
     user = request.cookies.get("user")
-    print(user)
+    logger.info(user)
     if user not in VALID_USERNAMES:
         return redirect("https://qrcodelaveylivrey.com/login")
 
@@ -175,8 +180,8 @@ def add_transaction_row():
         "Date": date,
         "Time": time
     }
-    print(qrcode_input)
-    print(loads)
+    logger.info(qrcode_input)
+    logger.info(loads)
 
     append_row_ggsheet(qrcode_input, loads)
 
