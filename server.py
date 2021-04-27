@@ -174,29 +174,14 @@ def add_transaction_row():
         "Date": date,
         "Time": time
     }
+    print(qrcode_input)
+    print(loads)
 
     append_row_ggsheet(qrcode_input, loads)
 
     formatted_html = write_html(code, machine, loads)
 
-    return formatted_html
-
-
-@app.before_request
-def before_request():
-    g.user = None
-
-    if "user_id" in session:
-        user = [x for x in VALID_USERS if x.id == session["user_id"]][0]
-        g.user = user
-
-
-@app.route("/profile")
-def profile():
-    if not g.user:
-        return redirect(url_for("login"))
-
-    return render_template("profile.html")
+    return make_response(formatted_html)
 
 
 if __name__ == "__main__":
