@@ -28,9 +28,10 @@ MAP_DAY_JOUR = {
 app = Flask(__name__)
 app.secret_key = "dsfghytresdfgtr"
 
-logger = logging.getLogger("werkzeug")
-handler = logging.FileHandler("test.log")
-logger.addHandler(handler)
+log_fname = "qr_code.log"
+logging.basicConfig(level=logging.INFO, format="%(message)s")
+logger = logging.getLogger()
+logger.addHandler(logging.FileHandler(log_fname))
 
 login_html_fpath = os.path.join("templates", LOGIN_PAGE_FNAME)
 with open(login_html_fpath) as fi:
