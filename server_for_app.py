@@ -54,12 +54,14 @@ def add_transaction_row():
     code = request.args.get("code")
     machine = request.args.get("machine")
     loads = int(request.args.get("loads"))
+    user = int(request.args.get("user"))
 
-    print(code, machine, loads)
+    print(user, code, machine, loads)
 
     date, time, jour, heure = get_time()
 
     qrcode_input = {
+        "User": user,
         "Code": code,
         "Machine": machine,
         "Jour": jour,

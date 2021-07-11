@@ -2,12 +2,13 @@ import gspread
 
 GG_SHEET_NAME = "SBS Laverie Privée"
 MAP_COLUMN_TO_GGSHEET_COLUMN = {
-    "Code": "A",
-    "Machine": "B",
-    "Jour": "C",
-    "Heure": "D",
-    "Date": "E",
-    "Time": "F"
+    "User": "A",
+    "Code": "B",
+    "Machine": "C",
+    "Jour": "D",
+    "Heure": "E",
+    "Date": "F",
+    "Time": "G"
 }
 
 
