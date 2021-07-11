@@ -37,7 +37,7 @@ def append_row_ggsheet(qrcode_input, loads):
     cells_to_update = []
     for load in range(loads):
         new_row_with_load = str(new_row_i + load)
-        cell_list = sheet.range(f"A{new_row_with_load}:F{new_row_with_load}")
+        cell_list = sheet.range(f"A{new_row_with_load}:G{new_row_with_load}")
         for i, cell_value in enumerate(cell_values):
             cell_list[i].value = cell_value
         cells_to_update.extend(list(cell_list))

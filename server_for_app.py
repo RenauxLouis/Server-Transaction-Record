@@ -54,7 +54,7 @@ def add_transaction_row():
     code = request.args.get("code")
     machine = request.args.get("machine")
     loads = int(request.args.get("loads"))
-    user = int(request.args.get("user"))
+    user = request.args.get("user")
 
     print(user, code, machine, loads)
 
