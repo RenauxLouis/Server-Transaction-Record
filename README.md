@@ -1,5 +1,4 @@
-# lavey-livrey-qrcode
-Lavey Livrey QR Code server
+This server is queried by the Flutter [app](https://github.com/RenauxLouis/App-Transactions-Record) by sending the data this server will save in a separate Google Sheet
 
 # Query:
 ```
